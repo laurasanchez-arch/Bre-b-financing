@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { SvgProps } from 'react-native-svg';
+import { useRouter } from 'expo-router';
 
 import NuButton from '@/src/components/NuButton';
 import NuText from '@/src/components/NuText';
@@ -29,6 +30,7 @@ type ActionItemProps = {
   icon: React.ReactNode;
   badge?: string;
   containerStyle?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 };
 
 type HeaderActionProps = {
@@ -44,9 +46,9 @@ function HeaderAction({ icon: Icon, onPress }: HeaderActionProps) {
   );
 }
 
-function ActionItem({ label, icon, badge, containerStyle }: ActionItemProps) {
+function ActionItem({ label, icon, badge, containerStyle, onPress }: ActionItemProps) {
   return (
-    <Pressable onPress={() => undefined} style={[styles.actionItem, containerStyle]}>
+    <Pressable onPress={onPress} style={[styles.actionItem, containerStyle]}>
       <View style={styles.actionAvatar}>
         {icon}
         {badge ? (
@@ -67,6 +69,8 @@ function ActionItem({ label, icon, badge, containerStyle }: ActionItemProps) {
 }
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <ScrollView bounces={false} contentContainerStyle={styles.scrollContent} style={styles.screen}>
@@ -117,11 +121,13 @@ export default function Home() {
               <ActionItem
                 icon={<SendIcon height={24} width={24} />}
                 label="Enviar"
+                onPress={() => router.push('/send-options')}
               />
               <ActionItem
                 badge="Tus llaves"
                 icon={<BreBIcon height={24} width={24} />}
                 label="Bre-B"
+                onPress={() => router.push('/bre-b')}
               />
               <ActionItem
                 icon={<QrCodeIcon height={24} width={24} />}
@@ -151,12 +157,12 @@ export default function Home() {
         <View style={styles.divider} />
 
         <View style={styles.sectionBlock}>
-          <View style={styles.sectionHeader}>
+          <Pressable onPress={() => router.push('/cc-dashboard')} style={styles.sectionHeader}>
             <NuText style={styles.sectionTitle} weight="bold">
               Tarjeta de crédito
             </NuText>
             <MaterialIcons color="#191919" name="navigate-next" size={24} />
-          </View>
+          </Pressable>
 
           <View style={styles.creditContent}>
             <NuText color="#727683" style={styles.creditSubtitle} weight="bold">

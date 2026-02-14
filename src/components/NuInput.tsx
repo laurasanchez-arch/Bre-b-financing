@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
 import NuText from './NuText';
 
@@ -8,9 +8,18 @@ export type NuInputProps = {
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
-};
+  trailing?: React.ReactNode;
+} & Omit<TextInputProps, 'value' | 'onChangeText' | 'placeholder'>;
 
-export default function NuInput({ label, value, onChangeText, placeholder }: NuInputProps) {
+export default function NuInput({
+  label,
+  value,
+  onChangeText,
+  placeholder,
+  trailing,
+  style: inputStyleOverride,
+  ...rest
+}: NuInputProps) {
   const [focused, setFocused] = React.useState(false);
 
   return (
@@ -19,17 +28,22 @@ export default function NuInput({ label, value, onChangeText, placeholder }: NuI
         {label}
       </NuText>
 
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor="#B3B3B3"
-        style={styles.input}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-      />
+      <View style={styles.inputRow}>
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor="rgba(0,0,0,0.32)"
+          selectionColor="#820AD1"
+          style={[styles.input, inputStyleOverride]}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          {...rest}
+        />
+        {trailing && <View style={styles.trailing}>{trailing}</View>}
+      </View>
 
-      <View style={focused ? styles.underlineFocused : styles.underline} />
+      <View style={styles.underline} />
     </View>
   );
 }
@@ -41,20 +55,25 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 6,
   },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    minHeight: 32,
+  },
   input: {
-    fontFamily: 'NuSansRegular',
-    fontSize: 16,
-    lineHeight: 22,
-    color: '#191919',
+    flex: 1,
+    fontFamily: 'NuSansBold',
+    fontSize: 20,
+    color: 'rgba(0,0,0,0.96)',
     paddingVertical: 8,
     paddingHorizontal: 0,
+    letterSpacing: -0.4,
+  },
+  trailing: {
+    marginLeft: 12,
   },
   underline: {
     height: 2,
-    backgroundColor: '#E6E6E6',
-  },
-  underlineFocused: {
-    height: 2,
-    backgroundColor: '#820AD1',
+    backgroundColor: '#EFEFEF',
   },
 });
