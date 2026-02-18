@@ -90,7 +90,7 @@ export default function CompareInstallments() {
                     </NuText>
                   </View>
 
-                  <ChevronRightIcon width={24} height={24} color="#707070" />
+                  <ChevronRightIcon width={24} height={24} fill="#707070" />
                 </Pressable>
 
                 {showDivider ? <View style={styles.divider} /> : null}
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   rowText: {
     flex: 1,
     paddingRight: 16,
-    rowGap: 4,
+    gap: 4,
   },
   rowTitle: {
     fontSize: 16,
