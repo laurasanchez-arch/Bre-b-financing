@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  type GestureResponderEvent,
-  type ViewStyle,
+    ActivityIndicator,
+    Pressable,
+    StyleSheet,
+    type GestureResponderEvent,
+    type ViewStyle,
 } from 'react-native';
 
 import NuText from './NuText';
@@ -37,7 +37,12 @@ export default function NuButton({
       {loading ? (
         <ActivityIndicator color="#FFFFFF" />
       ) : (
-        <NuText variant="body" weight="bold" color="#FFFFFF" style={styles.title}>
+        <NuText
+          variant="body"
+          weight="bold"
+          color={isDisabled ? 'rgba(0,0,0,0.32)' : '#FFFFFF'}
+          style={styles.title}
+        >
           {title}
         </NuText>
       )}
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   disabled: {
-    opacity: 0.5,
+    backgroundColor: '#EFEFEF',
   },
   pressed: {
     opacity: 0.9,
